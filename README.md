@@ -28,13 +28,11 @@ The following steps were taken to analyze the `psexec-hunt.pcapng` file and answ
 1.  **Initial Access IP Identification (`10.0.0.130`):**
     *   Used Wireshark's **Statistics -> Conversations -> IPv4** tab.
     *   Identified the IP address `10.0.0.130` as suspicious due to having a significantly higher packet/byte count in conversations compared to other hosts, suggesting it was the source of the initial attack activity.
-        ![Wireshark Conversations showing high traffic for 10.0.0.130](placeholder_image_url_step1_conversations.png)
-
 2.  **First Pivot Hostname Identification (`SALES-PC`):**
     *   Applied the Wireshark display filter `ip.src == 10.0.0.130` to isolate traffic originating from the attacker machine.
     *   Followed relevant TCP streams and examined SMB/SMB2 packets involved in authentication.
     *   Inspected the details of packet 131 (an SMB2 Session Setup Response), specifically within the NTLMSSP Challenge section, to find the **Target Name** field, which contained the hostname `SALES-PC`.
-        ![Wireshark packet details for Packet 131 showing Target Name SALES-PC](placeholder_image_url_step2_target_name.png)
+       ![Wireshark Conversations showing high traffic for 10.0.0.130 and Wireshark packet details for Packet 131 showing Target Name SALES-PC](https://github.com/Teedico/Network-Forensics-PsExec-Hunt/blob/3b3fe88bbf19956d1b094d1e1f76cee97d2442eb/Screenshot%20(38).png)
 
 3.  **Authentication Username Identification (`ssales`):**
     *   Continued analysis of packet 131 (SMB2 Session Setup Response).
